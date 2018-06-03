@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import Helmet from 'react-helmet';
 import Text from 'leaf-ui/Text/web';
 
@@ -12,11 +13,6 @@ import { NavHeader, Essential, DetailsCard, PriceCard, SoldOut, Policy } from '.
 // ////////////////////////////////////////////////////////////
 
 const propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      id: PropTypes.node
-    }).isRequired
-  }).isRequired,
   getHotelsDataIfNeeded: PropTypes.func.isRequired,
   getHotelsMeta: PropTypes.func.isRequired,
   hotels: PropTypes.shape({
@@ -24,6 +20,14 @@ const propTypes = {
   }).isRequired,
   hotelsMeta: PropTypes.shape({
     data: PropTypes.object.isRequired
+  }).isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.node
+    }).isRequired
+  }).isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired
   }).isRequired
 };
 
@@ -41,6 +45,18 @@ class HotelDetails extends Component {
 
   static getPolicySubhead = policy =>
     policy.includes(':') ? policy.substring(policy.indexOf(':') + 1).trim() : null;
+
+  state = {};
+
+  static getDerivedStateFromProps({ hotels, hotelsMeta, match, history }) {
+    if (!hotels.isLoading && !hotelsMeta.isLoading) {
+      const hotelId = HotelDetails.getHotelId(match.params);
+      if (!hotels.data[hotelId]) {
+        history.push('/hotels');
+      }
+    }
+    return null;
+  }
 
   componentDidMount() {
     window.scrollTo(0, 0);
@@ -141,7 +157,9 @@ const mapStateToProps = ({ hotels, hotelsMeta }) => ({
 const mapDispatchToProps = dispatch =>
   bindActionCreators({ getHotelsData, getHotelsDataIfNeeded, getHotelsMeta }, dispatch);
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(HotelDetails);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(HotelDetails)
+);
