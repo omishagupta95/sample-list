@@ -1,4 +1,10 @@
-// Constants and other config variables
+/**
+ * Constants and other config variables
+ */
+
+export const STORE_KEY = 'root';
+
+// ////////////////////////////////////////////////////////////
 
 const BASE_URL = 'http://www.mocky.io/v2/';
 
@@ -14,4 +20,17 @@ export const API_HOTELS_LIST = generateApiUrl(0);
 export const API_HOTELS_PRICES = generateApiUrl(1);
 export const API_HOTELS_META = generateApiUrl(2);
 
-export const STORE_KEY = 'root';
+// ////////////////////////////////////////////////////////////
+
+const HOTEL_ESSENTIALS_IMAGES = {
+  'ac-room': 'https://images.treebohotels.com/images/facilities/ac-room.svg',
+  breakfast: 'https://images.treebohotels.com/images/facilities/complimentary-tea-coffee.svg',
+  toiletries: 'https://images.treebohotels.com/images/facilities/complimentary-toiletries.svg',
+  tv: 'https://images.treebohotels.com/images/facilities/flat-screen-tv.svg',
+  wifi: 'https://images.treebohotels.com/images/facilities/free-wifi.svg'
+};
+
+export const getHotelEssentialsImageUrl = essential =>
+  HOTEL_ESSENTIALS_IMAGES[essential.replace(/\s+/g, '-').toLowerCase()];
+
+// ////////////////////////////////////////////////////////////
