@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 
 import { getHotelsData } from '../actions/hotels';
 import HotelCard from '../components/HotelCard';
@@ -72,6 +73,9 @@ class HotelsList extends Component {
     const { hotels } = this.props;
     return (
       <React.Fragment>
+        <Helmet>
+          <title>Top Rated Budget Hotel Chain in India</title>
+        </Helmet>
         <h2>Hotels</h2>
         <h2>{hotels.isLoading ? 'Loading hotels' : null}</h2>
         {this._renderHotelsList(hotels.data)}
