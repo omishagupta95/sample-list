@@ -6,7 +6,7 @@ const createAction = (type, data = null) => ({
   data
 });
 
-const shouldFetchHotelsData = state => state.hotels.data.length === 0;
+const shouldFetchHotelsData = state => Object.keys(state.hotels.data).length === 0;
 
 export const getHotelsData = () => dispatch => {
   dispatch(createAction(TYPES.REQUEST_HOTELS_DATA));

@@ -1,19 +1,26 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
+import Text from 'leaf-ui/Text/web';
 
 import { getHotelsData } from '../actions/hotels';
-import HotelCard from '../components/HotelCard';
-import { ListContainer } from '../elements';
+import { Flex, Layout } from '../styles';
+import { ListCardItem } from '../components';
 
 // ////////////////////////////////////////////////////////////
 
 const propTypes = {
+  getHotelsData: PropTypes.func.isRequired,
+  hotels: PropTypes.shape({
+    data: PropTypes.object.isRequired
+  }).isRequired,
   match: PropTypes.shape({
-    url: PropTypes.string.isRequired
+    params: PropTypes.shape({
+      id: PropTypes.node
+    }).isRequired
   }).isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired
@@ -21,80 +28,73 @@ const propTypes = {
 };
 
 class HotelsList extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
+  static generateBaseUrl = match =>
+    match.url.includes('hotels') ? match.url : `${match.url}hotels`;
 
-  // static getDerivedStateFromProps(nextProps) {
-  //   return null;
-  // }
+  static generateDetailsPageUrl = (match, hotel) =>
+    `${HotelsList.generateBaseUrl(match)}/treebo-${hotel.name.replace(/\s+/g, '-').toLowerCase()}-${
+      hotel.id
+    }`;
 
-  static _generateDetailsPageUrl = (match, hotel) =>
-    `${match.url}/${hotel.name.replace(/\s+/g, '-').toLowerCase()}-${hotel.id}`;
-
-  static _evalLowestPrice = ({ price }) => {
-    if (!price) return null;
-    let lowestPriceRoomKey = null;
-    Object.keys(price).forEach(roomKey => {
-      if (!lowestPriceRoomKey) {
-        lowestPriceRoomKey = price[roomKey];
-      } else if (price[roomKey] < price[lowestPriceRoomKey]) {
-        lowestPriceRoomKey = roomKey;
-      }
-    });
-    return lowestPriceRoomKey;
-  };
+  static evalLowestPrice = ({ prices = [] }) => (prices.length > 0 ? prices[0][1] : null);
 
   componentDidMount() {
     this.props.getHotelsData();
   }
 
-  _renderHotelsList = hotels => (
-    <ListContainer>
-      {Object.keys(hotels).map(id => (
-        <HotelCard
-          key={id}
-          hotel={hotels[id]}
-          lowestPrice={HotelsList._evalLowestPrice(hotels[id])}
-          navigateToDetailsPage={this.navigateToDetailsPage}
-        />
-      ))}
-    </ListContainer>
-  );
-
   navigateToDetailsPage = hotel => {
     const { match, history } = this.props;
-    const detailsPageUrl = HotelsList._generateDetailsPageUrl(match, hotel);
+    const detailsPageUrl = HotelsList.generateDetailsPageUrl(match, hotel);
     history.push(detailsPageUrl);
   };
+
+  renderHotelsList = hotels => (
+    <Flex display="flex" flexDirection="column" flex="1">
+      {Object.keys(hotels.data).map(id => (
+        <ListCardItem
+          key={id}
+          hotel={hotels.data[id] || {}}
+          lowestPrice={HotelsList.evalLowestPrice(hotels.data[id] || {})}
+          navigateToDetailsPage={this.navigateToDetailsPage}
+          isLoading={hotels.isLoading}
+        />
+      ))}
+    </Flex>
+  );
+
+  renderPageTitle = () => (
+    <Helmet>
+      <title>Top Rated Budget Hotel Chain in India</title>
+    </Helmet>
+  );
+
+  renderLoader = () => <Text>. . .</Text>;
 
   render() {
     const { hotels } = this.props;
     return (
-      <React.Fragment>
-        <Helmet>
-          <title>Top Rated Budget Hotel Chain in India</title>
-        </Helmet>
-        <h2>Hotels</h2>
-        <h2>{hotels.isLoading ? 'Loading hotels' : null}</h2>
-        {this._renderHotelsList(hotels.data)}
-      </React.Fragment>
+      <Fragment>
+        {this.renderPageTitle()}
+        <Layout padding="2rem 0">
+          <Text size="xxl" weight="bold">
+            Hotels
+          </Text>
+        </Layout>
+        <Flex display="flex" justifyContent="center" alignItems="center">
+          {this.renderHotelsList(hotels)}
+        </Flex>
+      </Fragment>
     );
   }
 }
 
 HotelsList.propTypes = propTypes;
 
-function mapStateToProps(state) {
-  return {
-    hotels: state.hotels
-  };
-}
+const mapStateToProps = ({ hotels }) => ({
+  hotels
+});
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ getHotelsData }, dispatch);
-}
+const mapDispatchToProps = dispatch => bindActionCreators({ getHotelsData }, dispatch);
 
 export default withRouter(
   connect(

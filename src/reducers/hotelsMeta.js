@@ -1,9 +1,9 @@
 import * as TYPES from '../actions/types';
 
-const hotels = (
+const hotelsMeta = (
   state = {
     isLoading: false,
-    data: []
+    data: {}
   },
   { type, data }
 ) => {
@@ -19,4 +19,4 @@ const hotels = (
   }
 };
 
-export default hotels;
+export default hotelsMeta;

@@ -3,7 +3,8 @@ import * as TYPES from '../actions/types';
 const hotels = (
   state = {
     isLoading: false,
-    data: []
+    isLoadingPrices: false,
+    data: {}
   },
   { type, data }
 ) => {
@@ -15,7 +16,7 @@ const hotels = (
 
     case TYPES.REQUEST_HOTELS_DATA_PRICES:
       return Object.assign({}, state, {
-        isLoading: true
+        isLoadingPrices: true
       });
 
     case TYPES.GET_HOTELS_DATA:
@@ -43,7 +44,7 @@ const hotels = (
         return hotelsObject;
       }, {});
 
-      return Object.assign({}, state, { isLoading: false }, { data: hotelPrices });
+      return Object.assign({}, state, { isLoadingPrices: false }, { data: hotelPrices });
 
     default:
       return state;

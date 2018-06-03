@@ -30,7 +30,8 @@ const HOTEL_ESSENTIALS_IMAGES = {
   wifi: 'https://images.treebohotels.com/images/facilities/free-wifi.svg'
 };
 
-export const getHotelEssentialsImageUrl = essential =>
-  HOTEL_ESSENTIALS_IMAGES[essential.replace(/\s+/g, '-').toLowerCase()];
+export const getEssentialsImageUrl = essential =>
+  HOTEL_ESSENTIALS_IMAGES[essential.replace(/\s+/g, '-').toLowerCase()] ||
+  HOTEL_ESSENTIALS_IMAGES.tv;
 
 // ////////////////////////////////////////////////////////////
