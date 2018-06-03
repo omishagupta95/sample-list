@@ -12,24 +12,39 @@ const hotels = (
       return Object.assign({}, state, {
         isLoading: true
       });
+
     case TYPES.REQUEST_HOTELS_DATA_PRICES:
       return Object.assign({}, state, {
         isLoading: true
       });
+
     case TYPES.GET_HOTELS_DATA:
       const hotelsData = data.reduce((hotelsObject, dataObject) => {
         const { id: hotelId } = dataObject;
         hotelsObject[hotelId] = { ...dataObject };
         return hotelsObject;
       }, {});
+
       return Object.assign({}, state, { isLoading: false }, { data: hotelsData });
+
     case TYPES.GET_HOTELS_DATA_PRICES:
       const hotelPrices = data.reduce((hotelsObject, dataObject) => {
         const { id, price } = dataObject;
-        hotelsObject[id] = { ...state.data[id], price };
+        let prices = [];
+
+        Object.keys(price).forEach(roomType => {
+          if (price[roomType]) prices.push([roomType, price[roomType]]);
+        });
+
+        prices = prices.sort((a, b) => a[1] - b[1]);
+
+        hotelsObject[id] = { ...state.data[id], prices };
+
         return hotelsObject;
       }, {});
+
       return Object.assign({}, state, { isLoading: false }, { data: hotelPrices });
+
     default:
       return state;
   }
