@@ -1,3 +1,4 @@
+/* eslint-disable react/sort-comp */
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
@@ -32,6 +33,25 @@ const propTypes = {
 };
 
 class HotelDetails extends Component {
+  state = {};
+
+  componentDidMount() {
+    window.scrollTo(0, 0);
+
+    this.props.getHotelsDataIfNeeded();
+    this.props.getHotelsMeta();
+  }
+
+  static getDerivedStateFromProps({ hotels, hotelsMeta, match, history }) {
+    if (!hotels.isLoading && !hotelsMeta.isLoading) {
+      const hotelId = HotelDetails.getHotelId(match.params);
+      if (!hotels.data[hotelId]) {
+        history.push('/hotels');
+      }
+    }
+    return null;
+  }
+
   static getHotelId = ({ hotelId: subRouteUrl }) =>
     subRouteUrl.substr(subRouteUrl.lastIndexOf('-') + 1);
 
@@ -45,25 +65,6 @@ class HotelDetails extends Component {
 
   static getPolicySubhead = policy =>
     policy.includes(':') ? policy.substring(policy.indexOf(':') + 1).trim() : null;
-
-  state = {};
-
-  static getDerivedStateFromProps({ hotels, hotelsMeta, match, history }) {
-    if (!hotels.isLoading && !hotelsMeta.isLoading) {
-      const hotelId = HotelDetails.getHotelId(match.params);
-      if (!hotels.data[hotelId]) {
-        history.push('/hotels');
-      }
-    }
-    return null;
-  }
-
-  componentDidMount() {
-    window.scrollTo(0, 0);
-
-    this.props.getHotelsDataIfNeeded();
-    this.props.getHotelsMeta();
-  }
 
   renderPageTitle = (hotels, hotelData) => {
     let title = 'Loading Hotel Info...';
