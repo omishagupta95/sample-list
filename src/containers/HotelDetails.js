@@ -137,9 +137,11 @@ class HotelDetails extends Component {
                 ) : null}
               </Fragment>
             </DetailsCard>
-            <DetailsCard title="Policies">
-              <SoldOutStyler>{this.renderPolicies(hotelsMetaData.policies)}</SoldOutStyler>
-            </DetailsCard>
+            <SoldOutStyler soldOut={soldOut}>
+              <DetailsCard title="Policies">
+                {this.renderPolicies(hotelsMetaData.policies)}
+              </DetailsCard>
+            </SoldOutStyler>
           </Fragment>
         )}
       </Fragment>

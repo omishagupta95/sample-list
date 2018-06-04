@@ -5,7 +5,7 @@ import Button from 'leaf-ui/Button/web';
 export const ListCard = styled(Card)`
   padding: 2rem;
   margin-bottom: 1rem;
-  min-height: ${props => (props.fixed ? '11rem' : '')};
+  min-height: ${props => (props.fixed ? '12rem' : '')};
 `;
 
 export const ListButton = styled(Button)`
