@@ -1,6 +1,7 @@
 # Sample Hotels List and Hotel Data
 
-[![Awesome](https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg)]()
+[![Build Status](https://travis-ci.org/dhruvdutt/sample-list.svg)](https://travis-ci.org/dhruvdutt/sample-list)
+[![Pull Requests Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)](http://makeapullrequest.com)
 
 #### Setup and Run :runner:
 
@@ -9,10 +10,9 @@ git clone --depth=1 https://github.com/dhruvdutt/sample-list && cd sample-list
 npm i && npm start
 ```
 
-#### Folder structure
+#### Folder structure :evergreen_tree:
 
 ```
-.
 └── [repo]
     ├── src                               // source folder
     |   ├── actions
@@ -36,8 +36,8 @@ npm i && npm start
     |   |   ├── PriceCard.js              // room type and price card
     |   |   ├── SoldOut.js                // all room sold out
     |   |   └── index.js
-    |   ├── config.js
-    |   ├── configureStore.js
+    |   ├── config.js                     // config variables, utils
+    |   ├── configureStore.js             // redux store, persistor configuration
     |   ├── index.js
     ├── public                            // public folder
     |   ├── index.html                    // root HTML file
