@@ -14,11 +14,11 @@ const ENDPOINTS = [
   '5a7f265b2e00005d00b56877' // Hotel policies, essentials
 ];
 
-const generateApiUrl = index => BASE_URL + ENDPOINTS[index];
-
-export const API_HOTELS_LIST = generateApiUrl(0);
-export const API_HOTELS_PRICES = generateApiUrl(1);
-export const API_HOTELS_META = generateApiUrl(2);
+export const APIS = {
+  HOTELS_LIST: BASE_URL + ENDPOINTS[0],
+  HOTELS_PRICES: BASE_URL + ENDPOINTS[1],
+  HOTELS_META: BASE_URL + ENDPOINTS[2]
+};
 
 // ////////////////////////////////////////////////////////////
 

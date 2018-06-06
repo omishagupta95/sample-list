@@ -3,6 +3,8 @@ import styled from 'styled-components';
 export { ListCard, ListButton } from './List';
 export { DetailsCardContainer, PriceCardOriginal, SoldOutStyler } from './Details';
 
+// ////////////////////////////////////////////////////////////
+
 export const AppContainer = styled.div`
   padding: 5% 15%;
 `;

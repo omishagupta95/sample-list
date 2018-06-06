@@ -2,6 +2,8 @@ import styled from 'styled-components';
 import Card from 'leaf-ui/Card/web';
 import Text from 'leaf-ui/Text/web';
 
+// ////////////////////////////////////////////////////////////
+
 export const DetailsCardContainer = styled(Card)`
   padding: 2rem;
   margin-bottom: 2rem;

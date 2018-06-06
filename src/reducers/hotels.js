@@ -1,5 +1,7 @@
 import * as TYPES from '../actions/types';
 
+// ////////////////////////////////////////////////////////////
+
 const hotels = (
   state = {
     isLoading: false,

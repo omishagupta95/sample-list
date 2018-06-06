@@ -1,5 +1,7 @@
 import * as TYPES from './types';
-import { API_HOTELS_LIST, API_HOTELS_PRICES, API_HOTELS_META } from '../config';
+import * as CONFIG from '../config';
+
+// ////////////////////////////////////////////////////////////
 
 const createAction = (type, data = null) => ({
   type,
@@ -11,11 +13,11 @@ const shouldFetchHotelsData = state => Object.keys(state.hotels.data).length ===
 export const getHotelsData = () => dispatch => {
   dispatch(createAction(TYPES.REQUEST_HOTELS_DATA));
 
-  fetch(API_HOTELS_LIST)
+  fetch(CONFIG.APIS.HOTELS_LIST)
     .then(response => response.json())
     .then(json => dispatch(createAction(TYPES.GET_HOTELS_DATA, json.data)))
     .then(() => dispatch(createAction(TYPES.REQUEST_HOTELS_DATA_PRICES)))
-    .then(() => fetch(API_HOTELS_PRICES))
+    .then(() => fetch(CONFIG.APIS.HOTELS_PRICES))
     .then(response => response.json())
     .then(json => dispatch(createAction(TYPES.GET_HOTELS_DATA_PRICES, json.data)));
 };
@@ -30,7 +32,7 @@ export const getHotelsDataIfNeeded = () => (dispatch, getState) => {
 export const getHotelsMeta = () => dispatch => {
   dispatch(createAction(TYPES.REQUEST_HOTELS_DATA_META));
 
-  return fetch(API_HOTELS_META)
+  return fetch(CONFIG.APIS.HOTELS_META)
     .then(response => response.json())
     .then(json => dispatch(createAction(TYPES.GET_HOTELS_DATA_META, json.data)));
 };
