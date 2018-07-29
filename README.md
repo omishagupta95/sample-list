@@ -1,5 +1,6 @@
 # Sample Hotels List and Hotel Data
 
+
 [![Build Status](https://travis-ci.org/dhruvdutt/sample-list.svg)](https://travis-ci.org/dhruvdutt/sample-list)
 [![Pull Requests Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)](http://makeapullrequest.com)
 
