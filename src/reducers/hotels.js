@@ -28,7 +28,11 @@ const hotels = (
         return hotelsObject;
       }, {});
 
-      return Object.assign({}, state, { isLoading: false }, { data: hotelsData });
+      return {
+        ...state,
+        isLoading: false,
+        data: hotelsData
+      }
 
     case TYPES.GET_HOTELS_DATA_PRICES:
       const hotelPrices = data.reduce((hotelsObject, dataObject) => {
@@ -46,7 +50,11 @@ const hotels = (
         return hotelsObject;
       }, {});
 
-      return Object.assign({}, state, { isLoadingPrices: false }, { data: hotelPrices });
+      return {
+        ...state,
+        isLoadingPrices: false,
+        data: hotelPrices
+      }
 
     default:
       return state;
